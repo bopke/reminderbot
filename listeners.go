@@ -84,7 +84,18 @@ func handleRemindCommand(s *discordgo.Session, m *discordgo.MessageCreate, args 
 		printHelp(m.ChannelID)
 		return false
 	}
-	message, err := session.ChannelMessage(m.ChannelID, args[0])
+	guild, err := s.Guild(m.GuildID)
+	if err != nil {
+		log.Println("handleRemindCommand Unable to get guild! ", err)
+		return false
+	}
+	var message *discordgo.Message
+	for _, channel := range guild.Channels {
+		message, err = session.ChannelMessage(channel.ID, args[0])
+		if err == nil {
+			break
+		}
+	}
 	if err != nil {
 		log.Println("handleRemindCommand Unable to load message ID: "+args[0]+"! ", err)
 		_, err = s.ChannelMessageSend(m.ChannelID, "Unable to find message with this ID :worried:")
@@ -107,11 +118,6 @@ func handleRemindCommand(s *discordgo.Session, m *discordgo.MessageCreate, args 
 		member, err := s.GuildMember(m.GuildID, m.Author.ID)
 		if err != nil {
 			log.Println("handleRemindCommand Unable to get guild member! ", err)
-			return false
-		}
-		guild, err := s.Guild(m.GuildID)
-		if err != nil {
-			log.Println("handleRemindCommand Unable to get guild! ", err)
 			return false
 		}
 		content := strings.Join(args[2:], " ")
