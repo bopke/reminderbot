@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bopke/discordgo"
+	"github.com/bwmarrin/discordgo"
 	"log"
 	"strings"
 	"time"
@@ -110,7 +110,7 @@ func handleRemindCommand(s *discordgo.Session, m *discordgo.MessageCreate, args 
 	}
 	afterID := ""
 	for {
-		reactionists, err := session.MessageReactions(m.ChannelID, message.ID, reactionId, "", afterID, 100)
+		reactionists, err := session.MessageReactions(m.ChannelID, message.ID, reactionId, 100, "", afterID)
 		if err != nil {
 			log.Println("handleRemindCommand Unable to get message reactionists! ", err)
 			return false

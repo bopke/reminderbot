@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/bopke/discordgo"
+	"github.com/bwmarrin/discordgo"
 	"github.com/robfig/cron"
 	"log"
 	"os"
