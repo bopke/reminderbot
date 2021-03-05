@@ -68,7 +68,8 @@ func isPermitted(guildID, UserID string) bool {
 		return false
 	}
 	for _, role := range member.Roles {
-		if role == "422408722107596811" {
+		switch role {
+		case "412193755286732800", "422408722107596811":
 			return true
 		}
 	}
